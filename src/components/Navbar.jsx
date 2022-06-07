@@ -20,7 +20,7 @@ export const Navbar = () => {
 
                     </ul>
 
-                    <button className="btn btn-success my-2 my-sm-0" onClick={() => navigate("/criar-empresa")}>+ Cadastrar</button>
+                    <button className="btn btn-success my-2 my-sm-0" onClick={() => navigate("/criar-empresa")}><span><i class="fa-regular fa-square-plus"></i></span> Cadastrar</button>
                 </div>
             </div>
         </nav>

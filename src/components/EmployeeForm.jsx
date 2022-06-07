@@ -65,7 +65,7 @@ export const EmployeeForm = () => {
             {/* Header*/}
             <div className="d-flex my-5 justify-content-between">
                 <button className="btn btn-dark" onClick={() => navigate("/")}>
-                    Voltar
+                   <span><i class="fa-solid fa-arrow-left"></i></span>
                 </button>
 
                 <h1>{id ? "Editar" : "Adicionar"} Empresa / Cliente</h1>

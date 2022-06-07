@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { EmployeeItem } from './EmployeeItem';
-import { getListEmployees, removeList } from '../services/localstorage';
+import { getListEmployees } from '../services/localstorage';
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom";
-import { EmployeeDelet } from './EmployeeDelet';
 
 export const EmployeeList = () => {
 
@@ -11,13 +10,13 @@ export const EmployeeList = () => {
     const [employees, setEmployees] = useState([])
 
     useEffect(() => {
-   
+
         setEmployees(getListEmployees())
     }, [])
 
 
     return (
-        
+
         <div>
             <h1 className="my-5 text-center">Lista de Empresas</h1>
 
@@ -30,9 +29,9 @@ export const EmployeeList = () => {
                                 employees.map(employee => <EmployeeItem employee={employee} key={employee.id} setEmployees={setEmployees} />)
 
                             }
-                           
+
                         </div>
-                        <button className="btn btn-danger mt-5 " onClick={() => navigate("/deletar/lista")}>Excluir lista</button>
+                        <button className="btn btn-danger mt-5 deleteAll " onClick={() => navigate("/deletar/lista")}><span><i class="fa-solid fa-trash-arrow-up"></i></span> Excluir lista</button>
                     </div>
 
                 ) : (
