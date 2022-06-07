@@ -10,13 +10,15 @@ export const EmployeeForm = () => {
     const navigate = useNavigate();
     const { id } = useParams()
     const [showAlert, setshowAlert] = useState(false);
+    const [showAlertError, setshowAlertError] = useState(false);
     const { inputValues, handleInputChange, resetForm, setForm } = useForm({
         nome: "",
         cpf_cnpj: "",
         logradouro: "",
         numero: "",
         cep: "",
-        telefone: ""
+        telefone: "",
+        documentos: []
 
     })
 
@@ -27,15 +29,34 @@ export const EmployeeForm = () => {
         }
     }, [id]);
 
+    const checkEmpty = () => {
+
+        if (!inputValues.nome.trim() || !inputValues.cpf_cnpj.trim() || !inputValues.logradouro.trim()
+            || !inputValues.numero.trim() || !inputValues.cep.trim() || !inputValues.telefone.trim())
+            return false;
+        else
+            return true;
+    }
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        id ? editEmployee(id, inputValues) : addEmployee({ id: uuid(), ...inputValues });
-        setshowAlert(true);
-        resetForm();
-        setTimeout(() => {
-            setshowAlert(false);
-        }, 2000);
+
+        if (checkEmpty()) {
+            id ? editEmployee(id, inputValues) : addEmployee({ id: uuid(), ...inputValues });
+            setshowAlert(true);
+            resetForm();
+            setTimeout(() => {
+                setshowAlert(false);
+            }, 2000);
+        }
+        else {
+            setshowAlertError(true);
+            setTimeout(() => {
+                setshowAlertError(false);
+            }, 2000);
+        };
+
     };
 
     return (
@@ -110,6 +131,16 @@ export const EmployeeForm = () => {
                             < div className="px-5 pt-3" >
                                 <div className="alert alert-success test -white text-center" role="alert" >
                                     Cadastrado com sucesso!
+                                </div>
+                            </div>
+                        )
+                    }
+
+                    {
+                        showAlertError && (
+                            < div className="px-5 pt-3" >
+                                <div className="alert alert-danger test -white text-center" role="alert" >
+                                    Preencha todos os campos
                                 </div>
                             </div>
                         )

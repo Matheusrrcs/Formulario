@@ -1,7 +1,10 @@
 import { useNavigate } from "react-router-dom";
- 
+
 export const Navbar = () => {
-        const navigate = useNavigate(); 
+    const navigate = useNavigate();
+
+
+
     return (
 
 
@@ -16,6 +19,7 @@ export const Navbar = () => {
                     <ul className="navbar-nav me-auto">
 
                     </ul>
+
                     <button className="btn btn-success my-2 my-sm-0" onClick={() => navigate("/criar-empresa")}>+ Cadastrar</button>
                 </div>
             </div>

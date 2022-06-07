@@ -1,16 +1,12 @@
-import React from 'react';
-import {useNavigate} from 'react-router-dom';
-import { removeEmployee, getListEmployees } from '../services/localstorage';
- 
-export const EmployeeItem = ({employee, setEmployees} ) => {
-   const {nome,id} = employee;
-   
-   const navigate = useNavigate();
-  
-   const deleteEmployee = () => {
-    removeEmployee(id);
-   setEmployees(getListEmployees());
-}
+
+import { useNavigate } from 'react-router-dom';
+
+export const EmployeeItem = ({ employee, setEmployees }) => {
+    const { nome, id } = employee;
+
+    const navigate = useNavigate();
+
+
 
     return (
 
@@ -19,7 +15,7 @@ export const EmployeeItem = ({employee, setEmployees} ) => {
                 <h5 className='mb-4'>{nome}</h5>
             </div>
             <div className='group-btn d-flex gap-3 justify-content-center'>
-                <span role="button" className="btn btn-outline-danger " onClick={()=> deleteEmployee()} >
+                <span role="button" className="btn btn-outline-danger " onClick={() => navigate(`/deletar/${id}`)} >
                     Excluir
                 </span>
                 <span role="button" className="btn btn-outline-info " onClick={() => navigate(`/editar-empresa/${id}`)}>
