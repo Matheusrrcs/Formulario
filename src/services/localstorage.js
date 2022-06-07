@@ -8,6 +8,7 @@ export const getListEmployees = () => {
   return employees;
 };
 
+ 
 export const addEmployee = (employee) => {
   const employees = getListEmployees();
   employees.push(employee);
@@ -21,10 +22,18 @@ export const removeEmployee = (id) => {
 };
 
 export const getEmployeeById = (id) => {
+  
   const employees = getListEmployees();
   const employee = employees.find((employee) => employee.id === id);
+  employee.documentos.push({   contador: "",
+  detalhes: "",
+  quantidade: "",
+  valor: "",})
+  console.log(employee.documentos)
   return employee;
 };
+
+
 
 export const editEmployee = (id, newEmployee) => {
   let employees = getListEmployees();
@@ -37,3 +46,5 @@ export const removeList = () => {
  localStorage.clear();
 
 }
+
+ 
