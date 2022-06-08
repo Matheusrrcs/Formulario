@@ -1,18 +1,25 @@
 
 import { useNavigate, useParams } from "react-router-dom";
-import { getEmployeeById } from "../services/localstorage"
+import { getEmployeeById, getListDocuments } from "../services/localstorage"
 import { formatCPF_CNPJ, formatCEP, formatPhone } from "../services/Format"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { EmployeeItemDocument } from "./EmployeeItemDocument";
 
 
 export const EmployeeDocuments = () => {
     const navigate = useNavigate();
 
     const { id } = useParams();
+    const [employees, setEmployees] = useState([])
 
     const [EmployeeDocuments, setEmployeesDocuments] = useState(getEmployeeById(id));
     const { nome, cpf_cnpj, logradouro, numero, cep, telefone, documentos } = EmployeeDocuments;
- 
+    
+    useEffect(() => {
+
+        setEmployees(getListDocuments(id))
+    }, [])
+
     return (
 
         <div className="text-center">
@@ -45,10 +52,25 @@ export const EmployeeDocuments = () => {
                     <div className="mb-4">
                         <h4 className="text-center pt-5">Sem formularios</h4>
                         <h6 className="text-center pt-1 mb-3">Não há formularios neste recurso</h6>
-                        <button className="btn btn-success my-2 my-sm-0" onClick={()=>navigate(`/criar-documentos/${id}`)} ><span><i class="fa-regular fa-square-plus"></i></span> Criar</button>
+                        <button className="btn btn-success my-2 my-sm-0" onClick={() => navigate(`/criar-documentos/${id}`)} ><span><i class="fa-regular fa-square-plus"></i></span> Criar</button>
                     </div>
+                    
                     :
-                    <h1></h1>
+                    <div className="container text-center">
+                    <div className="row">
+                        {
+                           employees.map(employee => < EmployeeItemDocument employee={employee} key={employee.id} setEmployees={setEmployees} />) 
+                        }
+
+                    </div>
+                    <div className="group-btn d-flex justify-content-center">
+                 
+
+                    <button type="button" class="btn btn-danger m-3" onClick={() => navigate("/deletar/lista")}><span><i class="fa-solid fa-trash-arrow-up"></i></span> Excluir lista</button>
+                    <button type="button" class="btn btn-success  m-3" onClick={() => navigate(`/criar-documentos/${id}`)} ><span><i class="fa-regular fa-square-plus"></i></span> Criar</button> 
+                    </div>
+                </div>
+                   
             }
 
 

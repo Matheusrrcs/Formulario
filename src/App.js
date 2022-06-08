@@ -17,7 +17,7 @@ export const App = () => {
                     <Route path="/editar-empresa/:id" element={<EmployeeForm/>}/>
                     <Route path="/deletar/:id" element={<EmployeeDelet/>}/>
                     <Route path="/documentos/:id" element={<EmployeeDocuments/>}/>
-                    <Route path="/criar-documentos/:id" element={<EmployeeFormDocuments/>}/>
+                    <Route path="/criar-documentos/:index" element={<EmployeeFormDocuments/>}/>
                 </Routes>
             </div>
 

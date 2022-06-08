@@ -18,6 +18,9 @@ export const EmployeeForm = () => {
         numero: "",
         cep: "",
         telefone: "",
+        bairro:"",
+        cidade:"",
+        estado:"",
         documentos: [ ]
 
     })
@@ -32,7 +35,8 @@ export const EmployeeForm = () => {
     const checkEmpty = () => {
 
         if (!inputValues.nome.trim() || !inputValues.cpf_cnpj.trim() || !inputValues.logradouro.trim()
-            || !inputValues.numero.trim() || !inputValues.cep.trim() || !inputValues.telefone.trim())
+            || !inputValues.numero.trim() || !inputValues.cep.trim() || !inputValues.telefone.trim() ||
+            !inputValues.bairro.trim() || !inputValues.cidade.trim()|| !inputValues.estado.trim())
             return false;
         else
             return true;
@@ -112,13 +116,34 @@ export const EmployeeForm = () => {
                             onChange={handleInputChange} />
 
                     </div>
+                    <div className="form-group mb-3">
+                        <label className="form-label mt-2" htmlFor="bairro">Bairro</label>
+                        <input type="text" className="form-control" id="bairro" placeholder="Digite o nome do bairro" name="bairro" value={inputValues.bairro}
+                            onChange={handleInputChange} />
 
+                    </div>
+                    <div className="form-group mb-3">
+                        <label className="form-label mt-2" htmlFor="cidade">Cidade</label>
+                        <input type="text" className="form-control" id="cidade" placeholder="Digite o nome cidade" name="cidade" value={inputValues.cidade}
+                            onChange={handleInputChange} />
+
+                    </div>
+
+                    
+                    <div className="form-group mb-3">
+                        <label className="form-label mt-2" htmlFor="estado">Estado</label>
+                        <input type="text" className="form-control" id="estado" placeholder="Digite o nome do estado" name="estado" value={inputValues.estado}
+                            onChange={handleInputChange} />
+
+                    </div>
                     <div className="form-group mb-3">
                         <label className="form-label mt-2" htmlFor="telefone">Telefone</label>
                         <input type="text" className="form-control" id="telefone" placeholder="Digite o numero do telefone" name="telefone" value={inputValues.telefone}
                             onChange={handleInputChange} />
 
                     </div>
+
+
 
                     <div className="d-grid gap-2 mt-5">
                         <button type="submit" className="btn btn-success">

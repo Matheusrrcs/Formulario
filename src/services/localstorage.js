@@ -8,7 +8,7 @@ export const getListEmployees = () => {
   return employees;
 };
 
- 
+
 export const addEmployee = (employee) => {
   const employees = getListEmployees();
   employees.push(employee);
@@ -22,29 +22,40 @@ export const removeEmployee = (id) => {
 };
 
 export const getEmployeeById = (id) => {
-  
+
   const employees = getListEmployees();
   const employee = employees.find((employee) => employee.id === id);
-  employee.documentos.push({   contador: "",
-  detalhes: "",
-  quantidade: "",
-  valor: "",})
-  console.log(employee.documentos)
+ 
   return employee;
 };
-
 
 
 export const editEmployee = (id, newEmployee) => {
   let employees = getListEmployees();
   employees = employees.filter((employee) => employee.id !== id);
   employees.push(newEmployee);
+ 
   localStorage["employees"] = JSON.stringify(employees);
 };
 
 export const removeList = () => {
- localStorage.clear();
+  localStorage.clear();
 
 }
 
- 
+
+export const addDocuments = (documento, index) => {
+  let employees = getListEmployees();
+  const employee = employees.find((employee) => employee.id === index);
+   
+  employee.documentos.push(documento)
+   
+  localStorage["employees"] = JSON.stringify(employees);
+}
+
+export const getListDocuments = (id) => {
+  let employees = getListEmployees();
+  const employee = employees.find((employee) => employee.id === id);
+   
+  return employee.documentos
+};

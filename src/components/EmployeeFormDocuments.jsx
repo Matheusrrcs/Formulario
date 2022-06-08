@@ -2,7 +2,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "../hooks/useForm";
 import uuid from 'react-uuid';
-import {  addEmployee, getEmployeeById, editEmployee } from "../services/localstorage";
+import { getEmployeeById, editEmployee, addDocuments, getListDocuments } from "../services/localstorage";
 import { useState, useEffect } from "react"
 
 
@@ -10,8 +10,8 @@ import { useState, useEffect } from "react"
 export const EmployeeFormDocuments = () => {
     const navigate = useNavigate();
 
-    const { id } = useParams()
-
+    const { index } = useParams(1)
+  
     const [showAlert, setshowAlert] = useState(false);
 
     const { inputValues, handleInputChange, resetForm, setForm } = useForm({
@@ -19,7 +19,7 @@ export const EmployeeFormDocuments = () => {
         detalhes: "",
         quantidade: "",
         valor: "",
-        
+
         detalhes1: "",
         quantidade1: "",
         valor1: "",
@@ -34,29 +34,38 @@ export const EmployeeFormDocuments = () => {
 
         detalhes4: "",
         quantidade4: "",
-        valor4: ""
+        valor4: "",
+
+        recibo: ""
 
     })
 
-    useEffect(() => {
-        if (id) {
-            const employee = getEmployeeById(id);
-            setForm(employee);
-        }
-    }, [id]);
- 
+    // useEffect(() => {
+    //     if (id) {
+    //         const employee = getEmployeeById(id);
+    //         setForm(employee);
+    //     }
+    // }, [id]);
+    const addRecibo = () => {
+
+        inputValues.recibo = getListDocuments(index).length + 1
+    }
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-       
-            id ? editEmployee(id, inputValues) : addEmployee({ id: uuid(), ...inputValues });
-            setshowAlert(true);
-            resetForm();
-            setTimeout(() => {
-                setshowAlert(false);
-            }, 2000);
-     
+
+        // id ? editEmployee(id, inputValues) : 
+        addRecibo()
+
+        addDocuments({ id: uuid(), ...inputValues }, index);
+        setshowAlert(true);
+        resetForm();
+        setTimeout(() => {
+            setshowAlert(false);
+        }, 2000);
+
 
     };
 
@@ -65,7 +74,7 @@ export const EmployeeFormDocuments = () => {
 
             {/* Header*/}
             <div className="d-flex my-5 justify-content-between">
-                <button className="btn btn-dark" onClick={() => navigate(`/documentos/${id}`)}>
+                <button className="btn btn-dark" onClick={() => navigate(`/documentos/${index}`)}>
                     <span><i class="fa-solid fa-arrow-left"></i></span>
                 </button>
 
@@ -86,6 +95,8 @@ export const EmployeeFormDocuments = () => {
                         />
 
                     </div>
+
+
 
                     <div className="form-group mb-3">
                         <label className="form-label mt-2" htmlFor="detalhes">Detalhes</label>
@@ -111,7 +122,7 @@ export const EmployeeFormDocuments = () => {
 
 
                     <div className="d-grid gap-2 mt-5">
-                        <button type="submit" className="btn btn-success">
+                        <button type="submit" className="btn btn-success"  >
                             Cadastrar
                         </button>
                     </div>

@@ -1,9 +1,9 @@
 
 import { useNavigate } from 'react-router-dom';
-import doc from "../imagens/documentos.png"
+import form from "../imagens/formularios.png"
 
-export const EmployeeItem = ({ employee, setEmployees }) => {
-    const { nome, id } = employee;
+export const EmployeeItemDocument = ({ employee, setEmployees }) => {
+    const {recibo, id } = employee;
 
     const navigate = useNavigate();
 
@@ -11,11 +11,11 @@ export const EmployeeItem = ({ employee, setEmployees }) => {
 
     return (
 
-        <div class="col-lg-2 card-content " >
-            <div className='card-boyd text-center my-3'onClick={() => navigate(`/documentos/${id}`)} >
-                <img src={doc} alt="icones do documentos" />
+        <div class="col-lg-2 card-content" >
+            <div className='card-boyd text-center my-3'  >
+                <img src={form} alt="icones do documentos" />
 
-                <h5 className='mb-4 titulo'>{nome}</h5>
+                <h5 className='mb-4 titulo'>Formulario {recibo}</h5>
             </div>
             <div className='group-btn d-flex gap-3 justify-content-center'>
                 <span role="button" className="btn btn-outline-danger " onClick={() => navigate(`/deletar/${id}`)} >
