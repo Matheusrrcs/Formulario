@@ -13,11 +13,12 @@ export const EmployeeDocuments = () => {
     const [employees, setEmployees] = useState([])
 
     const [EmployeeDocuments, setEmployeesDocuments] = useState(getEmployeeById(id));
-    const { nome, cpf_cnpj, logradouro, numero, cep, telefone, documentos } = EmployeeDocuments;
-    
+    const { nome, cpf_cnpj, logradouro, numero, cep, telefone, documentos, bairro, estado, cidade } = EmployeeDocuments;
+
     useEffect(() => {
 
         setEmployees(getListDocuments(id))
+
     }, [])
 
     return (
@@ -35,16 +36,26 @@ export const EmployeeDocuments = () => {
 
             </div>
 
-            <div className="card border-secundary p-5 m-5 text-start">
+            <div className="card border-secundary p-5  text-start ">
+                <div className="container">
 
-                <h5>Nome: {nome}</h5>
-                <h5>CPF/CNPJ: {formatCPF_CNPJ(cpf_cnpj)}</h5>
-                <h5>Logradouro: {logradouro}</h5>
-                <h5>Numero: {numero}º</h5>
-                <h5>CEP: {formatCEP(cep)}</h5>
-                <h5>Telefone: {formatPhone(telefone)}</h5>
+                    <div className="row  card-documentos">
+                        <div className="col-lg-6">
+                            <h5>Nome: {nome}</h5>
+                            <h5>CPF/CNPJ: {formatCPF_CNPJ(cpf_cnpj)}</h5>
+                            <h5>Logradouro: {logradouro}</h5>
+                            <h5>Numero: {numero}º</h5>
+                            <h5>CEP: {formatCEP(cep)}</h5>
+                        </div>
+                        <div className="col-lg-6">
+                            <h5>Telefone: {formatPhone(telefone)}</h5>
+                            <h5>Bairro: {bairro}</h5>
+                            <h5>Estado: {estado}</h5>
+                            <h5>Cidade: {cidade}</h5>
+                        </div>
+                    </div>
 
-
+                </div>
             </div>
 
             {
@@ -54,23 +65,24 @@ export const EmployeeDocuments = () => {
                         <h6 className="text-center pt-1 mb-3">Não há formularios neste recurso</h6>
                         <button className="btn btn-success my-2 my-sm-0" onClick={() => navigate(`/criar-documentos/${id}`)} ><span><i class="fa-regular fa-square-plus"></i></span> Criar</button>
                     </div>
-                    
+
                     :
-                    <div className="container text-center">
-                    <div className="row">
-                        {
-                           employees.map(employee => < EmployeeItemDocument employee={employee} key={employee.id} setEmployees={setEmployees} />) 
-                        }
+                    <div className="container text-center mt-4">
+                        <div className="row">
+                            {
+                                employees.map(employee => < EmployeeItemDocument index={id}
+                                    employee={employee} key={employee.id} setEmployees={setEmployees} />)
+                            }
 
-                    </div>
-                    <div className="group-btn d-flex justify-content-center">
-                 
+                        </div>
+                        <div className="group-btn d-flex justify-content-center">
 
-                    <button type="button" class="btn btn-danger m-3" onClick={() => navigate("/deletar/lista")}><span><i class="fa-solid fa-trash-arrow-up"></i></span> Excluir lista</button>
-                    <button type="button" class="btn btn-success  m-3" onClick={() => navigate(`/criar-documentos/${id}`)} ><span><i class="fa-regular fa-square-plus"></i></span> Criar</button> 
+
+                            <button type="button" class="btn btn-danger m-3" onClick={() => navigate(`/deletar/${id}/doc/lista`)}><span><i class="fa-solid fa-trash-arrow-up"></i></span> Excluir lista</button>
+                            <button type="button" class="btn btn-success  m-3" onClick={() => navigate(`/criar-documentos/${id}`)} ><span><i class="fa-regular fa-square-plus"></i></span> Criar</button>
+                        </div>
                     </div>
-                </div>
-                   
+
             }
 
 

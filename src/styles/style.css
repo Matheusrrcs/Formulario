@@ -40,4 +40,5 @@ transition: all 0.2s ease-in-out;
 }
  .titulo{
      font-size: 14px;
+     position: relative;
  }
