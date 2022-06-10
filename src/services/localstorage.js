@@ -1,4 +1,4 @@
- 
+
 export const getListEmployees = () => {
   if (!localStorage["employees"]) {
     localStorage["employees"] = "[]";
@@ -98,7 +98,13 @@ export const editDocument = (index, documento, indexdoc) => {
   let listasecundaria = getListEmployees();
   listasecundaria = listasecundaria.find((employee) => employee.id === index);
 
-  listasecundaria.documentos = employees;
+  listasecundaria.documentos = employees.sort(function (a, b) {
+    if (a.recibo < b.recibo) {
+      return -1;
+    } else {
+      return true;
+    }
+  });
 
 
 
@@ -175,4 +181,14 @@ export const removeListDocument = (index) => {
     }
   }));
 
+}
+
+
+export const positionRecibo = (index) => {
+
+  let documentos = getListDocuments(index);
+  if (documentos.length) {
+    return documentos[documentos.length - 1].recibo
+  }
+  return -1
 }

@@ -1,19 +1,18 @@
 
 
-import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import form from "../imagens/formularios.png"
 
 
 export const EmployeeItemDocument = ({ employee, setEmployees, index }) => {
-    const { recibo, id  } = employee;
- 
+    const { recibo, id } = employee;
+
     const navigate = useNavigate();
 
 
     return (
 
-        <div class="col-lg-2 card-content" >
+        <div class="col-lg-2 card-content" onClick={() => navigate(`/formulario/${id}/doc/${index}`)} >
             <div className='card-boyd text-center my-3'  >
                 <img src={form} alt="icones do documentos" />
 

@@ -2,7 +2,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "../hooks/useForm";
 import uuid from 'react-uuid';
-import { getEmployeeById, editEmployee, addDocuments, getListDocuments, editDocument } from "../services/localstorage";
+import { addDocuments, getListDocuments, editDocument, positionRecibo } from "../services/localstorage";
 import { useState, useEffect } from "react"
 
 
@@ -46,24 +46,37 @@ export const EmployeeFormDocuments = () => {
             const documentos = document.find((documento) => documento.id === indexdoc);
 
             setForm(documentos);
-          
+
         }
     }, [indexdoc]);
 
-    const addRecibo = () => {
 
-        inputValues.recibo = getListDocuments(index).length + 1
+    const addRecibo = () => {
+   
+        if (positionRecibo(index) > getListDocuments(index).length) {
+            inputValues.recibo = positionRecibo(index) + 1
+
+        }
+        else {
+            inputValues.recibo = getListDocuments(index).length + 1
+
+        }
+
+
     }
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        if (indexdoc === undefined) {
+            addRecibo()
+        }
 
         // id ? editEmployee(id, inputValues) : 
-        addRecibo()
-
         indexdoc ? editDocument(index, inputValues, indexdoc) : addDocuments({ id: uuid(), ...inputValues }, index);
+
+
         setshowAlert(true);
         resetForm();
         setTimeout(() => {
@@ -82,7 +95,7 @@ export const EmployeeFormDocuments = () => {
                     <span><i class="fa-solid fa-arrow-left"></i></span>
                 </button>
 
-                <h1> {indexdoc ? "Editar" : "Criar" } Formulario</h1>
+                <h1> {indexdoc ? "Editar" : "Criar"} Formulario</h1>
                 <div />
             </div>
 
