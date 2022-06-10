@@ -88,6 +88,15 @@ export const getListDocuments = (id) => {
   return employee.documentos
 };
 
+export const getDocument = (id, indexdoc) => {
+  let employees = getListEmployees();
+  const employee = employees.find((employee) => employee.id === id);
+ 
+  const doc = employee.documentos.find((document) => document.id === indexdoc)
+   
+ return doc;
+};
+
 export const editDocument = (index, documento, indexdoc) => {
 
   let employees = getListDocuments(index);

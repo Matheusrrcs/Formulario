@@ -1,10 +1,25 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import logo from "../imagens/logo-formulario.png"
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useReactToPrint } from 'react-to-print';
+import { getEmployeeById, getDocument } from "../services/localstorage";
+import { formatCEP, formatCPF_CNPJ } from "../services/Format";
 
 export const EmployeeDocumentForm = () => {
 
+    const { id, indexdoc } = useParams(1)
+
+    const [employee, setEmployee] = useState(getEmployeeById(id))
+    const { bairro, cep, cidade, cpf_cnpj, estado, logradouro, nome, numero, telefone } = employee
+
+    const [documentos, setDocumentos] = useState(getDocument(id, indexdoc));
+
+
+    const { contador, detalhes, detalhes1, detalhes2, detalhes3, detalhes4, quantidade, quantidade1, quantidade2, quantide3, quantidade4, valor, valor1, valor2, valor3, valor4, recibo, conta } = documentos;
+
+    let total = (valor ? parseInt(valor) : 0) + (valor1 ? parseInt(valor1) : 0) + (valor2 ? parseInt(valor2) : 0) + (valor3 ? parseInt(valor3) : 0) + (valor4 ? parseInt(valor4) : 0);
+
+    total = total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
 
     const navigate = useNavigate();
 
@@ -22,7 +37,7 @@ export const EmployeeDocumentForm = () => {
         <div className="text-center">
 
             <div className="d-flex justify-content-between  my-5 text-center">
-                <button className="btn btn-dark" onClick={() => navigate("/")}>
+                <button className="btn btn-dark" onClick={() => navigate(`/documentos/${id}`)}>
                     <span><i class="fa-solid fa-arrow-left"></i></span>
                 </button>
 
@@ -46,8 +61,8 @@ export const EmployeeDocumentForm = () => {
                 <div className="folha">
                     <p className="honorarios">Recibo de Honorários Contábeis</p>
 
-
-
+                    {/* 
+                    primeira linha */}
                     <div className="row">
 
                         <div className="col-2 imagem-form"><img src={logo} alt="logo do formulario" className="logo-formulario" /></div>
@@ -57,13 +72,16 @@ export const EmployeeDocumentForm = () => {
                         <div className="col-5 bordar-espaço">
                             <div className=" padrao borde-left-non">
                                 <p>MG Contabilidade e Processamento LTDA.</p>
-                                <p>Contador:Angelo Riki Souza</p>
+                                <p>CNPJ: 13.270.545/0001-60</p>
+                                <p>Rua: R Thomaz Gonzaga</p>
+                                <p>Bairro: Pernambues</p>
+                                <p>Contador: {contador}</p>
                             </div>
                         </div>
 
                         <div className="col-5  padrao   ">
                             <p>Data Emissão: {today.toLocaleDateString()}</p>
-                            <p>Nº do Recibo: 1</p>
+                            <p>Nº do Recibo: {recibo}</p>
                         </div>
 
 
@@ -71,12 +89,12 @@ export const EmployeeDocumentForm = () => {
                     </div>
 
 
-
-                    <div className="row mt-1">
+                    {/* segunda linha */}
+                    <div className="row  distancia">
 
                         <div className="col-6 padraoPequeno">
                             <p>Cliente:</p>
-                            <p>Matheus Rosario Cruz Santana</p>
+                            <p>{nome}</p>
 
                         </div>
 
@@ -84,24 +102,25 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-3 padraoPequeno borde-left-non">
                             <p>CNPJ</p>
-                            <p>09547462520</p>
+                            <p>{formatCPF_CNPJ(cpf_cnpj)}</p>
 
                         </div>
 
                         <div className="col-3  padraoPequeno borde-left-non">
                             <p>CEP:</p>
-                            <p>40430230</p>
+                            <p>{formatCEP(cep)}</p>
                         </div>
 
 
 
                     </div>
 
+                    {/* terceira linha */}
                     <div className="row ">
 
                         <div className="col-5 padraoPequeno borde-top-non">
                             <p>Endereço:</p>
-                            <p>Rua mascarenhas de moraes</p>
+                            <p>{logradouro}</p>
 
                         </div>
 
@@ -109,24 +128,25 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-2 padraoPequeno borde-left-non borde-top-non">
                             <p>Numeroº</p>
-                            <p>20</p>
+                            <p>{numero}</p>
 
                         </div>
 
                         <div className="col-5  padraoPequeno borde-left-non borde-top-non">
                             <p>Bairro:</p>
-                            <p>Vila Ruy Barbosa</p>
+                            <p>{bairro}</p>
                         </div>
 
 
 
                     </div>
 
+                    {/* quarta linha */}
                     <div className="row ">
 
                         <div className="col-4 padraoPequeno borde-top-non">
                             <p>Cidade:</p>
-                            <p>Salvador</p>
+                            <p>{cidade}</p>
 
                         </div>
 
@@ -134,23 +154,21 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-4 padraoPequeno borde-left-non borde-top-non">
                             <p>Estado:</p>
-                            <p>Bahia</p>
+                            <p>{estado}</p>
 
                         </div>
 
                         <div className="col-4  padraoPequeno borde-left-non borde-top-non">
                             <p>Telefone:</p>
-                            <p>71986244580</p>
+                            <p>{telefone}</p>
                         </div>
 
 
 
                     </div>
 
-
-
-
-                    <div className="row mt-2">
+                    {/* quinta linha */}
+                    <div className="row distancia ">
 
                         <div className="col-6 padraoCentro">
                             <p>DESCRIÇÃO DOS SERVIÇOS:</p>
@@ -187,7 +205,7 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-6 padraoCentro borde-top-non borde-bottom-non">
 
-                            <p>HONORARIOS MÊS 03/2022</p>
+                            <p>{detalhes}</p>
 
                         </div>
 
@@ -195,13 +213,13 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-3 padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>1</p>
+                            <p>{quantidade}</p>
 
                         </div>
 
                         <div className="col-3  padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>200</p>
+                            <p>{valor}</p>
                         </div>
 
 
@@ -211,7 +229,7 @@ export const EmployeeDocumentForm = () => {
                     <div className="row ">
 
                         <div className="col-6 padraoCentro borde-top-non borde-bottom-non">
-                            <p>HONORARIOS MÊS 03/2022 </p>
+                            <p>{detalhes1} </p>
 
                         </div>
 
@@ -219,39 +237,13 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-3 padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>1</p>
+                            <p>{quantidade1}</p>
 
                         </div>
 
                         <div className="col-3  padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>200</p>
-                        </div>
-
-
-
-                    </div>
-
-
-                    <div className="row ">
-
-                        <div className="col-6 padraoCentro borde-top-non borde-bottom-non">
-
-                            <p>HONORARIOS MÊS 03/2022</p>
-
-                        </div>
-
-
-
-                        <div className="col-3 padraoCentro borde-left-non borde-top-non borde-bottom-non">
-
-                            <p>1</p>
-
-                        </div>
-
-                        <div className="col-3  padraoCentro borde-left-non borde-top-non borde-bottom-non">
-
-                            <p>200</p>
+                            <p>{valor1}</p>
                         </div>
 
 
@@ -263,7 +255,7 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-6 padraoCentro borde-top-non borde-bottom-non">
 
-                            <p>HONORARIOS MÊS 03/2022</p>
+                            <p>{detalhes2}</p>
 
                         </div>
 
@@ -271,13 +263,13 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-3 padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>1</p>
+                            <p>{quantidade2}</p>
 
                         </div>
 
                         <div className="col-3  padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>200</p>
+                            <p>{valor2}</p>
                         </div>
 
 
@@ -289,7 +281,7 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-6 padraoCentro borde-top-non borde-bottom-non">
 
-                            <p>HONORARIOS MÊS 03/2022</p>
+                            <p>{detalhes3}</p>
 
                         </div>
 
@@ -297,13 +289,13 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-3 padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>1</p>
+                            <p>{quantide3}</p>
 
                         </div>
 
                         <div className="col-3  padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>200</p>
+                            <p>{valor3}</p>
                         </div>
 
 
@@ -312,10 +304,37 @@ export const EmployeeDocumentForm = () => {
 
 
                     <div className="row ">
+
+                        <div className="col-6 padraoCentro borde-top-non borde-bottom-non">
+
+                            <p>{detalhes4}</p>
+
+                        </div>
+
+
+
+                        <div className="col-3 padraoCentro borde-left-non borde-top-non borde-bottom-non">
+
+                            <p>{quantidade4}</p>
+
+                        </div>
+
+                        <div className="col-3  padraoCentro borde-left-non borde-top-non borde-bottom-non">
+
+                            <p>{valor4}</p>
+                        </div>
+
+
+
+                    </div>
+
+
+
+                    <div className="row  ">
 
                         <div className="col-6 padraoCentro borde-top-non caixa " >
 
-                            <p>CAIXA ECONOMICA AG-3888 C/C 21029-9 OP-01</p>
+                            <p>{conta}</p>
 
                         </div>
 
@@ -337,12 +356,11 @@ export const EmployeeDocumentForm = () => {
                     </div>
 
 
-
                     <div className="row ">
 
-                        <div className="col-12 padraoCentro borde-top-non " >
+                        <div className="col-12 padraoCentro borde-top-non txt-right" >
 
-                            <p>TOTAL: R$ 981,34</p>
+                            <p>TOTAL: {total}</p>
 
                         </div>
 
@@ -351,7 +369,9 @@ export const EmployeeDocumentForm = () => {
 
                     </div>
 
-                    <div className="row mt-2">
+
+                    {/* linha 6 */}
+                    <div className="row distancia">
 
                         <div className="col-6 padraoPequeno   " >
 
@@ -369,7 +389,7 @@ export const EmployeeDocumentForm = () => {
 
                     </div>
 
-                    <div className="row mt-2">
+                    <div className="row distancia">
 
                         <div className="col-12 padraoMini   " >
 
@@ -386,9 +406,13 @@ export const EmployeeDocumentForm = () => {
 
                 </div>
 
-                <div className="folha dois"  >
+
+
+                <div className="folha dois">
                     <p className="honorarios">Recibo de Honorários Contábeis</p>
 
+                    {/* 
+                    primeira linha */}
                     <div className="row">
 
                         <div className="col-2 imagem-form"><img src={logo} alt="logo do formulario" className="logo-formulario" /></div>
@@ -398,13 +422,13 @@ export const EmployeeDocumentForm = () => {
                         <div className="col-5 bordar-espaço">
                             <div className=" padrao borde-left-non">
                                 <p>MG Contabilidade e Processamento LTDA.</p>
-                                <p>Contador:Angelo Riki Souza</p>
+                                <p>Contador:{contador}</p>
                             </div>
                         </div>
 
                         <div className="col-5  padrao   ">
                             <p>Data Emissão: {today.toLocaleDateString()}</p>
-                            <p>Nº do Recibo: 1</p>
+                            <p>Nº do Recibo: {recibo}</p>
                         </div>
 
 
@@ -412,12 +436,12 @@ export const EmployeeDocumentForm = () => {
                     </div>
 
 
-
-                    <div className="row mt-1">
+                    {/* segunda linha */}
+                    <div className="row  distancia">
 
                         <div className="col-6 padraoPequeno">
                             <p>Cliente:</p>
-                            <p>Matheus Rosario Cruz Santana</p>
+                            <p>{nome}</p>
 
                         </div>
 
@@ -425,24 +449,25 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-3 padraoPequeno borde-left-non">
                             <p>CNPJ</p>
-                            <p>09547462520</p>
+                            <p>{formatCPF_CNPJ(cpf_cnpj)}</p>
 
                         </div>
 
                         <div className="col-3  padraoPequeno borde-left-non">
-                            <p>CEP:</p>
-                            <p>40430230</p>
+                            <p>{formatCEP(cep)}</p>
+                            <p>{cep}</p>
                         </div>
 
 
 
                     </div>
 
+                    {/* terceira linha */}
                     <div className="row ">
 
                         <div className="col-5 padraoPequeno borde-top-non">
                             <p>Endereço:</p>
-                            <p>Rua mascarenhas de moraes</p>
+                            <p>{logradouro}</p>
 
                         </div>
 
@@ -450,24 +475,25 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-2 padraoPequeno borde-left-non borde-top-non">
                             <p>Numeroº</p>
-                            <p>20</p>
+                            <p>{numero}</p>
 
                         </div>
 
                         <div className="col-5  padraoPequeno borde-left-non borde-top-non">
                             <p>Bairro:</p>
-                            <p>Vila Ruy Barbosa</p>
+                            <p>{bairro}</p>
                         </div>
 
 
 
                     </div>
 
+                    {/* quarta linha */}
                     <div className="row ">
 
                         <div className="col-4 padraoPequeno borde-top-non">
                             <p>Cidade:</p>
-                            <p>Salvador</p>
+                            <p>{cidade}</p>
 
                         </div>
 
@@ -475,23 +501,21 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-4 padraoPequeno borde-left-non borde-top-non">
                             <p>Estado:</p>
-                            <p>Bahia</p>
+                            <p>{estado}</p>
 
                         </div>
 
                         <div className="col-4  padraoPequeno borde-left-non borde-top-non">
                             <p>Telefone:</p>
-                            <p>71986244580</p>
+                            <p>{telefone}</p>
                         </div>
 
 
 
                     </div>
 
-
-
-
-                    <div className="row mt-2">
+                    {/* quinta linha */}
+                    <div className="row distancia ">
 
                         <div className="col-6 padraoCentro">
                             <p>DESCRIÇÃO DOS SERVIÇOS:</p>
@@ -528,7 +552,7 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-6 padraoCentro borde-top-non borde-bottom-non">
 
-                            <p>HONORARIOS MÊS 03/2022</p>
+                            <p>{detalhes}</p>
 
                         </div>
 
@@ -536,13 +560,13 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-3 padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>1</p>
+                            <p>{quantidade}</p>
 
                         </div>
 
                         <div className="col-3  padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>200</p>
+                            <p>{valor}</p>
                         </div>
 
 
@@ -552,7 +576,7 @@ export const EmployeeDocumentForm = () => {
                     <div className="row ">
 
                         <div className="col-6 padraoCentro borde-top-non borde-bottom-non">
-                            <p>HONORARIOS MÊS 03/2022 </p>
+                            <p>{detalhes1} </p>
 
                         </div>
 
@@ -560,39 +584,13 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-3 padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>1</p>
+                            <p>{quantidade1}</p>
 
                         </div>
 
                         <div className="col-3  padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>200</p>
-                        </div>
-
-
-
-                    </div>
-
-
-                    <div className="row ">
-
-                        <div className="col-6 padraoCentro borde-top-non borde-bottom-non">
-
-                            <p>HONORARIOS MÊS 03/2022</p>
-
-                        </div>
-
-
-
-                        <div className="col-3 padraoCentro borde-left-non borde-top-non borde-bottom-non">
-
-                            <p>1</p>
-
-                        </div>
-
-                        <div className="col-3  padraoCentro borde-left-non borde-top-non borde-bottom-non">
-
-                            <p>200</p>
+                            <p>{quantidade1}</p>
                         </div>
 
 
@@ -604,7 +602,7 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-6 padraoCentro borde-top-non borde-bottom-non">
 
-                            <p>HONORARIOS MÊS 03/2022</p>
+                            <p>{detalhes2}</p>
 
                         </div>
 
@@ -612,13 +610,13 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-3 padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>1</p>
+                            <p>{quantidade2}</p>
 
                         </div>
 
                         <div className="col-3  padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>200</p>
+                            <p>{valor2}</p>
                         </div>
 
 
@@ -630,7 +628,7 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-6 padraoCentro borde-top-non borde-bottom-non">
 
-                            <p>HONORARIOS MÊS 03/2022</p>
+                            <p>{detalhes3}</p>
 
                         </div>
 
@@ -638,13 +636,13 @@ export const EmployeeDocumentForm = () => {
 
                         <div className="col-3 padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>1</p>
+                            <p>{quantide3}</p>
 
                         </div>
 
                         <div className="col-3  padraoCentro borde-left-non borde-top-non borde-bottom-non">
 
-                            <p>200</p>
+                            <p>{valor3}</p>
                         </div>
 
 
@@ -653,10 +651,37 @@ export const EmployeeDocumentForm = () => {
 
 
                     <div className="row ">
+
+                        <div className="col-6 padraoCentro borde-top-non borde-bottom-non">
+
+                            <p>{detalhes4}</p>
+
+                        </div>
+
+
+
+                        <div className="col-3 padraoCentro borde-left-non borde-top-non borde-bottom-non">
+
+                            <p>{quantidade4}</p>
+
+                        </div>
+
+                        <div className="col-3  padraoCentro borde-left-non borde-top-non borde-bottom-non">
+
+                            <p>{valor4}</p>
+                        </div>
+
+
+
+                    </div>
+
+
+
+                    <div className="row  ">
 
                         <div className="col-6 padraoCentro borde-top-non caixa " >
 
-                            <p>CAIXA ECONOMICA AG-3888 C/C 21029-9 OP-01</p>
+                            <p>{conta}</p>
 
                         </div>
 
@@ -678,12 +703,11 @@ export const EmployeeDocumentForm = () => {
                     </div>
 
 
-
                     <div className="row ">
 
-                        <div className="col-12 padraoCentro borde-top-non " >
+                        <div className="col-12 padraoCentro borde-top-non txt-right" >
 
-                            <p>TOTAL: R$ 981,34</p>
+                            <p>TOTAL: {total}</p>
 
                         </div>
 
@@ -692,7 +716,9 @@ export const EmployeeDocumentForm = () => {
 
                     </div>
 
-                    <div className="row mt-2">
+
+                    {/* linha 6 */}
+                    <div className="row distancia">
 
                         <div className="col-6 padraoPequeno   " >
 
@@ -710,7 +736,7 @@ export const EmployeeDocumentForm = () => {
 
                     </div>
 
-                    <div className="row mt-2">
+                    <div className="row distancia">
 
                         <div className="col-12 padraoMini   " >
 
@@ -724,8 +750,8 @@ export const EmployeeDocumentForm = () => {
 
 
 
-
                 </div>
+
 
             </div>
 

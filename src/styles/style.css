@@ -53,17 +53,19 @@
 
 
 .folha {
-    padding:2rem  8rem 0.5rem 8rem;
+    padding: 2rem 6.5rem 0.5rem 6.5rem;
     font-family: "Calibri";
 
 }
-.folha.dois{
-    padding:0.2rem  8rem 0.5rem 8rem;
+
+.folha.dois {
+    padding: 0.2rem 6.5rem 0.5rem 6.5rem;
 }
 
-.folha p{
+.folha p {
     margin: 0;
     padding: 0;
+    letter-spacing: 0;
 }
 
 .folha .row {
@@ -76,10 +78,12 @@
     width: 100%;
 
 }
-.imprimir{
+
+.imprimir {
     display: flex;
     justify-content: end;
 }
+
 .logo-formulario {
     width: 120px;
     height: 80px;
@@ -89,12 +93,14 @@
 .imagem-form {
     border: 2px solid black;
     display: flex;
-justify-content: center;
-align-items: center;
-height: 93px;
+    justify-content: center;
+    align-items: center;
+    height: 93px;
 }
-.linha-pontuada{
-    border: 2px  dotted black;
+
+.linha-pontuada {
+    border: 1px dashed black;
+    ;
 }
 
 .padrao {
@@ -117,42 +123,46 @@ height: 93px;
     padding: 0.3rem 0 0 0.3rem;
 }
 
-.padraoMini{
+.padraoMini {
     border: 2px solid black;
     display: flex;
     text-align: left;
     flex-direction: column;
     height: 24px;
-   
+
 }
 
-.padraoCentro{
-    border:2px solid black;
+.padraoCentro {
+    border: 2px solid black;
     display: flex;
     text-align: center;
     align-items: center;
     flex-direction: column;
     height: 22px;
- 
+
 }
 
-.padraoCentro.caixa{
-text-align: left;
-align-items: start;
- 
-padding: 1px;
+.padraoCentro.caixa {
+    text-align: left;
+    align-items: start;
+
+    padding: 3px;
 }
 
 
 
-.bordar-espaço {padding-left: 0 !important;}
+.bordar-espaço {
+    padding-left: 0 !important;
+}
 
 .borde-left-non {
     border-left: none;
 }
+
 .borde-top-non {
     border-top: none;
 }
+
 .borde-bottom-non {
     border-bottom: none;
 }
@@ -161,7 +171,11 @@ padding: 1px;
     font-size: 11px;
     color: black;
     font-weight: bold;
- 
+
+}
+
+.distancia {
+    margin-top: 0.1rem;
 }
 
 .honorarios {
@@ -177,4 +191,10 @@ padding: 1px;
 .formulario-coluna.midle {
     border-left: none;
 
+}
+
+.txt-right {
+    display: flex;
+ align-items: end;
+ 
 }

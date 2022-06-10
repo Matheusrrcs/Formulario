@@ -36,7 +36,8 @@ export const EmployeeFormDocuments = () => {
         quantidade4: "",
         valor4: "",
 
-        recibo: ""
+        recibo: "",
+        conta:""
 
     })
     useEffect(() => {
@@ -108,6 +109,14 @@ export const EmployeeFormDocuments = () => {
                     <div className="form-group mb-3">
                         <label className="form-label mt-2" htmlFor="contador">Contador</label>
                         <input type="text" className="form-control" id="contador" placeholder="Digite o nome do contador" name="contador" value={inputValues.contador}
+                            onChange={handleInputChange}
+                        />
+
+                    </div>
+
+                    <div className="form-group mb-3">
+                        <label className="form-label mt-2" htmlFor="conta">Conta</label>
+                        <input type="text" className="form-control" id="conta" placeholder="Digite a conta para pagamento" name="conta" value={inputValues.conta}
                             onChange={handleInputChange}
                         />
 

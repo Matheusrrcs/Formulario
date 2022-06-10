@@ -12,8 +12,8 @@ export const EmployeeItemDocument = ({ employee, setEmployees, index }) => {
 
     return (
 
-        <div class="col-lg-2 card-content" onClick={() => navigate(`/formulario/${id}/doc/${index}`)} >
-            <div className='card-boyd text-center my-3'  >
+        <div class="col-lg-2 card-content"  >
+            <div className='card-boyd text-center my-3'  onClick={() => navigate(`/formulario/${index}/doc/${id}`)}>
                 <img src={form} alt="icones do documentos" />
 
                 <h5 className='mb-4 titulo'>Formulario {recibo}</h5>
